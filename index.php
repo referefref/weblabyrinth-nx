@@ -47,6 +47,14 @@ include_once('dissociated-press.inc.php');
 //$_SERVER['HTTP_ACCEPT_ENCODING']
 //$_SERVER['HTTP_DNT']
 
+if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+	$_SERVER['HTTP_USER_AGENT'] = "";
+}
+
+if (!isset($_SERVER['HTTP_ACCEPT'])) {
+	$_SERVER['HTTP_ACCEPT'] = "";
+}
+
 if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 	$_SERVER['HTTP_ACCEPT_LANGUAGE'] = "";
 }

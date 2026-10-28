@@ -1,3 +1,27 @@
+Adapted from https://github.com/mayhemiclabs/weblabyrinth by Ben Jackson
+(Mayhemic Labs).
+
+weblabyrinth-nx is the original WebLabyrinth (last upstream commit e84b208,
+September 2012) with only the changes needed to run on current PHP (tested
+with PHP 8.2 and Apache 2.4 on Debian 12). The PHP 5 "sqlite" extension
+(SQLiteDatabase, sqlite_escape_string) was removed in PHP 5.4 and PHP 4 style
+constructors stopped working in PHP 8, so the original no longer runs.
+Changes:
+
+* labyrinth.inc.php: the SQLite3 class replaces SQLiteDatabase (querySingle,
+  exec, SQLite3::escapeString), the constructor is named __construct, the
+  random seed is passed to mt_srand() as an integer, and the reverse DNS name
+  is escaped before it is stored.
+* index.php: an empty User-Agent or Accept header defaults to "", as the
+  other headers already did.
+* The database is created with the sqlite3 command (see SETUP below).
+
+Pages, links, alerts, configuration and the database layout are unchanged.
+The licence terms are those in the source file headers (BSD style), copied
+to LICENSE.
+
+----------------------------------------------------------------------
+
 WebLabyrinth - A simple tool that creates a maze of bogus web pages to 
 confuse web scanners. It's main goal is to delay and occupy malicious 
 scanners that scan websites in order for incident handlers to detected 
@@ -19,7 +43,7 @@ PREREQUISITES
 * mod_rewrite
 * PHP
 * sqlite
-* PHP sqlite extension
+* PHP sqlite3 extension (php-sqlite3)
 * PHP mail() support
 
 SETUP AND CONFIGURATION
@@ -45,7 +69,7 @@ database is labyrinth.sql. The following commands do this on my (Debian)
 system:
 
  	mkdir /opt/weblabyrinth/
- 	cat labyrinth.sql | sqlite /opt/weblabyrinth/labyrinth.db
+ 	cat labyrinth.sql | sqlite3 /opt/weblabyrinth/labyrinth.db
 	chown -R www-data:www-data /opt/weblabyrinth
 
 Once the database is created, edit the config.inc.php 'tracking_db'
